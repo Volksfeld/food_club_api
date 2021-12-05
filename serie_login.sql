@@ -226,7 +226,7 @@ INSERT INTO
     `name`,
     `picture`,
     `price`,
-    'blocked',
+    `blocked`,
     -- ingredients
   )
 VALUES
