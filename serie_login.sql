@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `user` (
   `name` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
-) ENGINE = MyISAM AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8;
+) ENGINE = MyISAM AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8;phone_number
 
 --
 -- Estrutura da tabela `responsible`
@@ -35,12 +35,12 @@ DROP TABLE IF EXISTS `responsible`;
 CREATE TABLE IF NOT EXISTS `responsible` (
   `cpf` int(11) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `phoneNumber` int(11) NOT NULL,
+  `phone_number` int(11) NOT NULL,
   `email` varchar(200) NOT NULL,
   `login` varchar(200) NOT NULL,
   `password` varchar(300) NOT NULL,
   -- `studentsEnrollment` int(9) NOT NULL,
-  `accessLevel` varchar(100) NOT NULL,
+  `access_level` varchar(100) NOT NULL,
   PRIMARY KEY (`cpf`),
   UNIQUE KEY `email` (`cpf`)
 ) ENGINE = MyISAM AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8;
@@ -52,16 +52,16 @@ DROP TABLE IF EXISTS `student`;
 
 CREATE TABLE IF NOT EXISTS `student` (
   `enrollment` int(9) NOT NULL,
-  `studentClass` int(3) NOT NULL,
+  `student_class` int(3) NOT NULL,
   `shift` varchar(50) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `phoneNumber` int(11) NOT NULL,
+  `phone_number` int(11) NOT NULL,
   `email` varchar(200) NOT NULL,
   `login` varchar(200) NOT NULL,
   `password` varchar(300) NOT NULL,
-  `responsibleCpf` int(11) NOT NULL,
+  `responsible_cpf` int(11) NOT NULL,
   `balance` int(100) NOT NULL,
-  `accessLevel` varchar(100) NOT NULL,
+  `access_level` varchar(100) NOT NULL,
   PRIMARY KEY (`enrollment`),
   UNIQUE KEY `email` (`enrollment`)
 ) ENGINE = MyISAM AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8;
@@ -75,9 +75,9 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `adress` varchar(100) NOT NULL,
-  `phoneNumber` int(11) NOT NULL,
+  `phone_number` int(11) NOT NULL,
   `email` varchar(200) NOT NULL,
-  `accessLevel` varchar(100) NOT NULL,
+  `access_level` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`email`)
 ) ENGINE = MyISAM AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8;
@@ -93,7 +93,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `name` varchar(100) NOT NULL,
   `picture` varchar(100) DEFAULT NULL,
   `price` int(11) NOT NULL,
-  `isBlocked` boolean NOT NULL,
+  `blocked` boolean NOT NULL,
   -- `ingredients` varchar(100) NOT NULL,
   `provider` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`code`),
@@ -107,12 +107,12 @@ INSERT INTO
   `responsible` (
     `cpf`,
     `name`,
-    `phoneNumber`,
+    `phone_number`,
     `email`,
     'login',
     'password',
     'studentsEnrollment',
-    'accessLevel'
+    'access_level'
   )
 VALUES
   (
@@ -143,16 +143,16 @@ VALUES
 INSERT INTO
   `student` (
     `enrollment`,
-    `studentClass`,
+    `student_class`,
     `shift`,
     `name`,
-    `phoneNumber`,
+    `phone_number`,
     `email`,
     `login`,
     `password`,
-    `responsibleCpf`,
+    `responsible_cpf`,
     `balance`,
-    `accessLevel`
+    `access_level`
   )
 VALUES
   (
@@ -203,8 +203,8 @@ INSERT INTO
   `staff` (
     `name`,
     `adress`,
-    `phoneNumber`,
-    'accessLevel'
+    `phone_number`,
+    'access_level'
   )
 VALUES
   (
@@ -226,7 +226,7 @@ INSERT INTO
     `name`,
     `picture`,
     `price`,
-    'isBlocked',
+    'blocked',
     -- ingredients
   )
 VALUES
