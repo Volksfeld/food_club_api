@@ -109,10 +109,10 @@ INSERT INTO
     `name`,
     `phone_number`,
     `email`,
-    'login',
-    'password',
-    'studentsEnrollment',
-    'access_level'
+    `login`,
+    `password`,
+    `studentsEnrollment`,
+    `access_level`
   )
 VALUES
   (
@@ -204,7 +204,8 @@ INSERT INTO
     `name`,
     `adress`,
     `phone_number`,
-    'access_level'
+    `email`,
+    `access_level`
   )
 VALUES
   (
