@@ -2,21 +2,22 @@
 
     namespace App\Controllers;
 
-    use App\Models\User;
+    use App\Models\Product;
 
-    class UserController {
+    class ProductController {
+        
         public function get($id = null) {
             if ($id) {
-             return User::select($id);
+             return Product::select($id);
             }
 
-            return User::selectAll();
+            return Product::selectAll();
         }
 
         public function post() {
           $data = $_POST;
 
-          return User::insert($data);
+          return Product::insert($data);
         }
 
         public function update() {

@@ -2,21 +2,21 @@
 
     namespace App\Controllers;
 
-    use App\Models\User;
+    use App\Models\Responsible;
 
-    class UserController {
+    class ResponsibleController {
         public function get($id = null) {
             if ($id) {
-             return User::select($id);
+             return Responsible::select($id);
             }
 
-            return User::selectAll();
+            return Responsible::selectAll();
         }
 
         public function post() {
           $data = $_POST;
 
-          return User::insert($data);
+          return Responsible::insert($data);
         }
 
         public function update() {

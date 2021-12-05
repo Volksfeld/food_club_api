@@ -2,21 +2,21 @@
 
     namespace App\Controllers;
 
-    use App\Models\User;
+    use App\Models\Student;
 
-    class UserController {
+    class StudentController {
         public function get($id = null) {
             if ($id) {
-             return User::select($id);
+             return Student::select($id);
             }
 
-            return User::selectAll();
+            return Student::selectAll();
         }
 
         public function post() {
           $data = $_POST;
 
-          return User::insert($data);
+          return Student::insert($data);
         }
 
         public function update() {

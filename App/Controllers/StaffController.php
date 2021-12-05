@@ -2,21 +2,21 @@
 
     namespace App\Controllers;
 
-    use App\Models\User;
+    use App\Models\Staff;
 
-    class UserController {
+    class StaffController {
         public function get($id = null) {
             if ($id) {
-             return User::select($id);
+             return Staff::select($id);
             }
 
-            return User::selectAll();
+            return Staff::selectAll();
         }
 
         public function post() {
           $data = $_POST;
 
-          return User::insert($data);
+          return Staff::insert($data);
         }
 
         public function update() {
