@@ -5,9 +5,9 @@
     use App\Models\Student;
 
     class StudentController {
-        public function get($id = null) {
-            if ($id) {
-             return Student::select($id);
+        public function get($enrollment = null) {
+            if ($enrollment) {
+             return Student::select($enrollment);
             }
 
             return Student::selectAll();

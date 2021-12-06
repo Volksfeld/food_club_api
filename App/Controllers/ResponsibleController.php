@@ -5,9 +5,9 @@
     use App\Models\Responsible;
 
     class ResponsibleController {
-        public function get($id = null) {
-            if ($id) {
-             return Responsible::select($id);
+        public function get($cpf = null) {
+            if ($cpf) {
+             return Responsible::select($cpf);
             }
 
             return Responsible::selectAll();

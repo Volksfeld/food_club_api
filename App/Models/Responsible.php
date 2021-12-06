@@ -7,13 +7,13 @@ class Responsible
     private static $table = 'responsible';
 
 
-    public static function select(int $name)
+    public static function select(int $cpf)
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        $sql = 'SELECT * FROM ' . self::$table . ' WHERE name = :name';
+        $sql = 'SELECT * FROM ' . self::$table . ' WHERE cpf = :cpf';
         $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(':name', $name);
+        $stmt->bindValue(':cpf', $cpf);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -46,23 +46,7 @@ class Responsible
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        $sql = 'INSERT INTO ' . self::$table . ' (
-                cpf,
-                name,
-                phone_number,
-                email,
-                login,
-                password,
-                access_level
-              ) VALUES (
-                :cpf,
-                :name,
-                :phone_number,
-                :email,
-                :login,
-                :password,
-                :access_level
-              )';
+        $sql = 'INSERT INTO ' . self::$table . '(cpf, name, phone_number, email, login, password, access_level) VALUES (:cpf, :name, :phone_number, :email, :login, :password, :access_level)';
 
         $stmt = $connPdo->prepare($sql);
         $stmt->bindValue(':cpf', $data['cpf']);
@@ -73,9 +57,12 @@ class Responsible
         $stmt->bindValue(':password', $data['password']);
         $stmt->bindValue(':access_level', $data['access_level']);
 
+
+
         if ($stmt->rowCount() > 0) {
             return 'responsável inserido com sucesso!';
         } else {
+          
             throw new \Exception("Falha ao inserir responsável");
         }
     }
