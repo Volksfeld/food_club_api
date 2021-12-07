@@ -1,30 +1,35 @@
 <?php
 
-    namespace App\Controllers;
+namespace App\Controllers;
 
-    use App\Models\Product;
+use App\Models\Product;
 
-    class ProductController {
-        
-        public function get($id = null) {
-            if ($id) {
-             return Product::select($id);
-            }
+class ProductController
+{
 
-            return Product::selectAll();
+    public function get($id = null)
+    {
+        if ($id) {
+            return Product::select($id);
         }
 
-        public function post() {
-          $data = $_POST;
-
-          return Product::insert($data);
-        }
-
-        public function update() {
-
-        }
-
-        public function delete() {
-
-        }
+        return Product::selectAll();
     }
+
+    public function post()
+    {
+        $data = $_POST;
+
+        return Product::insert($data);
+    }
+
+    public function update()
+    {
+    }
+
+    public function delete($code)
+    {
+
+        return Product::delete($code);
+    }
+}

@@ -54,12 +54,30 @@ class Product
         $stmt->bindValue(':name', $data['name']);
         $stmt->bindValue(':price', $data['price']);
         $stmt->execute();
-        
+
         var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Produto inserido com sucesso!';
         } else {
             throw new \Exception("Falha ao inserir produto");
+        }
+    }
+
+    public static function delete($code)
+    {
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        $sql = 'DELETE FROM product WHERE code = :code';
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':code', $code);
+        $stmt->execute();
+
+        var_dump($stmt->errorInfo());
+        if ($stmt->rowCount() > 0) {
+            return 'Produto deletado com sucesso!';
+        } else {
+            throw new \Exception("Falha ao deletar produto");
         }
     }
 }

@@ -70,4 +70,22 @@ class Student
             throw new \Exception('falha');
         }
     }
+
+    public static function delete($enrollment)
+    {
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        $sql = 'DELETE FROM student WHERE enrollment = :enrollment';
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':enrollment', $enrollment);
+        $stmt->execute();
+
+        var_dump($stmt->errorInfo());
+        if ($stmt->rowCount() > 0) {
+            return 'Estudante deletado com sucesso!';
+        } else {
+            throw new \Exception("Falha ao deletar estudante");
+        }
+    }
 }

@@ -65,4 +65,22 @@ class Responsible
             throw new \Exception("Falha ao inserir responsável");
         }
     }
+
+    public static function delete($cpf)
+    {
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        $sql = 'DELETE FROM responsible WHERE cpf = :cpf';
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':cpf', $cpf);
+        $stmt->execute();
+
+        var_dump($stmt->errorInfo());
+        if ($stmt->rowCount() > 0) {
+            return 'Responsável deletado com sucesso!';
+        } else {
+            throw new \Exception("Falha ao deletar responsável");
+        }
+    }
 }

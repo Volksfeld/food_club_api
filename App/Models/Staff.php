@@ -64,4 +64,22 @@ class Staff
             }
       
     }
+
+    public static function delete($id)
+    {
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        $sql = 'DELETE FROM staff WHERE id = :id';
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+
+        var_dump($stmt->errorInfo());
+        if ($stmt->rowCount() > 0) {
+            return 'Funcionário deletado com sucesso!';
+        } else {
+            throw new \Exception("Falha ao deletar funcionário");
+        }
+    }
 }
