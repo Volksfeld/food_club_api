@@ -20,6 +20,7 @@ class Responsible
 
             return $stmt->fetch(\PDO::FETCH_ASSOC);
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Nenhum responsável encontrado");
         }
     }
@@ -36,6 +37,7 @@ class Responsible
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Nenhum responsável encontrado");
         }
     }
@@ -61,7 +63,7 @@ class Responsible
         if ($stmt->rowCount() > 0) {
             return 'Responsável inserido com sucesso!';
         } else {
-
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao inserir responsável");
         }
     }
@@ -77,19 +79,22 @@ class Responsible
         $login = $data["login"];
         $password = $data["password"];
 
-        $sql = "UPDATE responsible SET
-                name = '" . $name . "', phone_number = '" . $phone_number . "',email = '" . $email .  "', phone_number = '" . $login .  "', password = '" . $password . "'
-                WHERE cpf = " . $cpf;
-
+        $sql = "UPDATE responsible SET name = ?, phone_number = ?, email = ?, login = ?, password = ? WHERE cpf = ?";
+              
         $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(':cpf', $cpf);
+        $stmt->bindValue(1, $name);
+        $stmt->bindValue(2, $phone_number);
+        $stmt->bindValue(3, $email);
+        $stmt->bindValue(4, $login);
+        $stmt->bindValue(5, $password);
+        $stmt->bindValue(6, $cpf);
 
         $stmt->execute();
 
-        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Responsável atualizado com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao atualizar responsável");
         }
     }
@@ -104,11 +109,12 @@ class Responsible
         $stmt->bindValue(':cpf', $cpf);
         $stmt->execute();
 
-        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Responsável deletado com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao deletar responsável");
         }
     }
+
 }

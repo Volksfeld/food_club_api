@@ -20,6 +20,7 @@ class Student
 
             return $stmt->fetch(\PDO::FETCH_ASSOC);
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Nenhum estudante encontrado");
         }
     }
@@ -36,6 +37,7 @@ class Student
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Nenhum estudante encontrado");
         }
     }
@@ -62,11 +64,11 @@ class Student
         $stmt->bindValue(':balance', $data['balance']);
         $stmt->bindValue(':access_level', $data['access_level']);
         $stmt->execute();
-        var_dump($stmt->errorInfo());
 
         if ($stmt->rowCount() > 0) {
             return 'Estudante inserido com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception('falha');
         }
     }
@@ -85,23 +87,19 @@ class Student
         $login = $data["login"];
         $password = $data["password"];
         $responsible_cpf = $data["responsible_cpf"];
-        $balance = $data["balance"];
 
-        $sql = "UPDATE student SET
-                 student_class = '" . $student_class . 
-                 "', shift = '" . $shift . 
-                 "', name = '" . $name . 
-                 "', phone_number = '" . $phone_number . 
-                 "',email = '" . $email .  
-                 "', login = '" . $login .  
-                 "', password = '" . $password .  
-                 "', phone_number = '" . $login .  
-                 "', responsible_cpf = '" . $responsible_cpf .  
-                 "', balance = '" . $balance . "'
-                WHERE enrollment = " . $enrollment;
-
+        $sql = "UPDATE student SET student_class = ?, shift = ?, name = ?, phone_number = ?, email = ?, login = ?, password = ?, responsible_cpf = ? WHERE enrollment = ?";
+              
         $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(':enrollment', $enrollment);
+        $stmt->bindValue(1, $student_class);
+        $stmt->bindValue(2, $shift);
+        $stmt->bindValue(3, $name);
+        $stmt->bindValue(4, $phone_number);
+        $stmt->bindValue(5, $email);
+        $stmt->bindValue(6, $login);
+        $stmt->bindValue(7, $password);
+        $stmt->bindValue(8, $responsible_cpf);
+        $stmt->bindValue(9, $enrollment);
 
         $stmt->execute();
 
@@ -123,11 +121,12 @@ class Student
         $stmt->bindValue(':enrollment', $enrollment);
         $stmt->execute();
 
-        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Estudante deletado com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao deletar estudante");
         }
     }
+
 }

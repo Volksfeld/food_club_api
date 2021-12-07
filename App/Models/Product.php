@@ -20,6 +20,7 @@ class Product
 
             return $stmt->fetch(\PDO::FETCH_ASSOC);
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Nenhum produto encontrado");
         }
     }
@@ -36,6 +37,7 @@ class Product
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Nenhum produto encontrado");
         }
     }
@@ -55,10 +57,10 @@ class Product
         $stmt->bindValue(':price', $data['price']);
         $stmt->execute();
 
-        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Produto inserido com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao inserir produto");
         }
     }
@@ -68,26 +70,24 @@ class Product
 
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        echo $code;
         $type = $data["type"];
         $name = $data["name"];
         $price = $data["price"];
 
-        $sql = "UPDATE product SET
-                type = '" . $type . 
-                "', name = '" . $name . 
-                "',price = '" . $price . "'
-                WHERE code = " . $code;
-
+        $sql = "UPDATE product SET type = ?, name = ?, price = ? WHERE code = ?";
+              
         $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(':code', $code);
+        $stmt->bindValue(1, $type);
+        $stmt->bindValue(2, $name);
+        $stmt->bindValue(3, $price);
+        $stmt->bindValue(4, $code);
 
         $stmt->execute();
 
-        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Produto atualizado com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao atualizar produto");
         }
     }
@@ -102,10 +102,10 @@ class Product
         $stmt->bindValue(':code', $code);
         $stmt->execute();
 
-        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Produto deletado com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao deletar produto");
         }
     }

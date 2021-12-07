@@ -20,6 +20,7 @@ class Staff
 
             return $stmt->fetch(\PDO::FETCH_ASSOC);
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Nenhum funcionário encontrado");
         }
     }
@@ -36,6 +37,7 @@ class Staff
 
             return $stmt->fetchAll(\PDO::FETCH_ASSOC);
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Nenhum funcionário encontrado");
         }
     }
@@ -60,6 +62,7 @@ class Staff
         if ($stmt->rowCount() > 0) {
             return 'Funcionário inserido com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao inserir funcionário");
         }
     }
@@ -69,25 +72,26 @@ class Staff
 
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        $name = !$data["name"] ? $data["name"] : '';
+        $name = $data["name"];
         $adress = $data["adress"];
         $phone_number = $data["phone_number"];
         $email = $data["email"];
 
-
-        $sql = "UPDATE staff SET
-                name = '" . $name . "', adress = '" . $adress . "',phone_number = '" . $phone_number . "',email = '" . $email . "'
-                WHERE id = " . $id;
-
+        $sql = "UPDATE staff SET name = ?, adress = ?, phone_number = ?, email = ? WHERE id = ?";
+              
         $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(':id', $id);
+        $stmt->bindValue(1, $name);
+        $stmt->bindValue(2, $adress);
+        $stmt->bindValue(3, $phone_number);
+        $stmt->bindValue(4, $email);
+        $stmt->bindValue(5, $id);
 
         $stmt->execute();
 
-        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Funcionário atualizado com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao atualizar funcionário");
         }
     }
@@ -102,10 +106,10 @@ class Staff
         $stmt->bindValue(':id', $id);
         $stmt->execute();
 
-        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Funcionário deletado com sucesso!';
         } else {
+            var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao deletar funcionário");
         }
     }
