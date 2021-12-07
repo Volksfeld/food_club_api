@@ -1,5 +1,6 @@
 <?php
 
+
 namespace App\Controllers;
 
 use App\Models\Staff;
@@ -15,16 +16,17 @@ class StaffController
         return Staff::selectAll();
     }
 
-    public function post()
+    public function post($id = null)
     {
         $data = $_POST;
+
+        if ($id) {
+            return Staff::update($id, $data);
+        }
 
         return Staff::insert($data);
     }
 
-    public function update()
-    {
-    }
 
     public function delete($id)
     {

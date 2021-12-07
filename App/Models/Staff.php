@@ -44,25 +44,52 @@ class Staff
 
     public static function insert($data)
     {
-            $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-            $sql = 'INSERT INTO ' . self::$table . ' (name, adress, phone_number, email, access_level) VALUES (:name, :adress, :phone_number, :email, :access_level)';
-        
-            $stmt = $connPdo->prepare($sql);
-            $stmt->bindValue(':name', $data['name']);
-            $stmt->bindValue(':adress', $data['adress']);
-            $stmt->bindValue(':phone_number', $data['phone_number']);
-            $stmt->bindValue(':email', $data['email']);
-            $stmt->bindValue(':access_level', $data['access_level']);
-            
-            $stmt->execute();
-    
-            if ($stmt->rowCount() > 0) {
-                return 'Funcionário inserido com sucesso!';
-            } else {
-                throw new \Exception("Falha ao inserir funcionário");
-            }
-      
+        $sql = 'INSERT INTO ' . self::$table . ' (name, adress, phone_number, email, access_level) VALUES (:name, :adress, :phone_number, :email, :access_level)';
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':name', $data['name']);
+        $stmt->bindValue(':adress', $data['adress']);
+        $stmt->bindValue(':phone_number', $data['phone_number']);
+        $stmt->bindValue(':email', $data['email']);
+        $stmt->bindValue(':access_level', $data['access_level']);
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return 'Funcionário inserido com sucesso!';
+        } else {
+            throw new \Exception("Falha ao inserir funcionário");
+        }
+    }
+
+    public static function update($id, $data)
+    {
+
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        $name = !$data["name"] ? $data["name"] : '';
+        $adress = $data["adress"];
+        $phone_number = $data["phone_number"];
+        $email = $data["email"];
+
+
+        $sql = "UPDATE staff SET
+                name = '" . $name . "', adress = '" . $adress . "',phone_number = '" . $phone_number . "',email = '" . $email . "'
+                WHERE id = " . $id;
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':id', $id);
+
+        $stmt->execute();
+
+        var_dump($stmt->errorInfo());
+        if ($stmt->rowCount() > 0) {
+            return 'Funcionário atualizado com sucesso!';
+        } else {
+            throw new \Exception("Falha ao atualizar funcionário");
+        }
     }
 
     public static function delete($id)

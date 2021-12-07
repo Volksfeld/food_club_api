@@ -63,6 +63,35 @@ class Product
         }
     }
 
+    public static function update($code, $data)
+    {
+
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        echo $code;
+        $type = $data["type"];
+        $name = $data["name"];
+        $price = $data["price"];
+
+        $sql = "UPDATE product SET
+                type = '" . $type . 
+                "', name = '" . $name . 
+                "',price = '" . $price . "'
+                WHERE code = " . $code;
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':code', $code);
+
+        $stmt->execute();
+
+        var_dump($stmt->errorInfo());
+        if ($stmt->rowCount() > 0) {
+            return 'Produto atualizado com sucesso!';
+        } else {
+            throw new \Exception("Falha ao atualizar produto");
+        }
+    }
+
     public static function delete($code)
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);

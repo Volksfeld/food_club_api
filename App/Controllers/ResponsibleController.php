@@ -15,15 +15,15 @@ class ResponsibleController
         return Responsible::selectAll();
     }
 
-    public function post()
+    public function post($cpf = null)
     {
         $data = $_POST;
 
-        return Responsible::insert($data);
-    }
+        if ($cpf) {
+            return Responsible::update($cpf, $data);
+        }
 
-    public function update()
-    {
+        return Responsible::insert($data);
     }
 
     public function delete($cpf)

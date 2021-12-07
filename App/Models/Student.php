@@ -71,6 +71,48 @@ class Student
         }
     }
 
+    public static function update($enrollment, $data)
+    {
+
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        echo $data["phone_number"];
+        $student_class = $data["student_class"];
+        $shift = $data["shift"];
+        $name = $data["name"];
+        $phone_number = $data["phone_number"];
+        $email = $data["email"];
+        $login = $data["login"];
+        $password = $data["password"];
+        $responsible_cpf = $data["responsible_cpf"];
+        $balance = $data["balance"];
+
+        $sql = "UPDATE student SET
+                 student_class = '" . $student_class . 
+                 "', shift = '" . $shift . 
+                 "', name = '" . $name . 
+                 "', phone_number = '" . $phone_number . 
+                 "',email = '" . $email .  
+                 "', login = '" . $login .  
+                 "', password = '" . $password .  
+                 "', phone_number = '" . $login .  
+                 "', responsible_cpf = '" . $responsible_cpf .  
+                 "', balance = '" . $balance . "'
+                WHERE enrollment = " . $enrollment;
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':enrollment', $enrollment);
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return 'Estudante atualizado com sucesso!';
+        } else {
+            var_dump($stmt->errorInfo());
+            throw new \Exception("Falha ao atualizar estudante");
+        }
+    }
+
     public static function delete($enrollment)
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);

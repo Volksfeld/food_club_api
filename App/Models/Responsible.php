@@ -61,8 +61,36 @@ class Responsible
         if ($stmt->rowCount() > 0) {
             return 'Responsável inserido com sucesso!';
         } else {
-          
+
             throw new \Exception("Falha ao inserir responsável");
+        }
+    }
+
+    public static function update($cpf, $data)
+    {
+
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        $name = $data["name"];
+        $phone_number = $data["phone_number"];
+        $email = $data["email"];
+        $login = $data["login"];
+        $password = $data["password"];
+
+        $sql = "UPDATE responsible SET
+                name = '" . $name . "', phone_number = '" . $phone_number . "',email = '" . $email .  "', phone_number = '" . $login .  "', password = '" . $password . "'
+                WHERE cpf = " . $cpf;
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(':cpf', $cpf);
+
+        $stmt->execute();
+
+        var_dump($stmt->errorInfo());
+        if ($stmt->rowCount() > 0) {
+            return 'Responsável atualizado com sucesso!';
+        } else {
+            throw new \Exception("Falha ao atualizar responsável");
         }
     }
 

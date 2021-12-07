@@ -15,15 +15,15 @@ class StudentController
         return Student::selectAll();
     }
 
-    public function post()
+    public function post($enrollment = null)
     {
         $data = $_POST;
 
-        return Student::insert($data);
-    }
+        if ($enrollment) {
+            return Student::update($enrollment, $data);
+        }
 
-    public function update()
-    {
+        return Student::insert($data);
     }
 
     public function delete($enrollment)

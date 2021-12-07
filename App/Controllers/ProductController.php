@@ -7,24 +7,25 @@ use App\Models\Product;
 class ProductController
 {
 
-    public function get($id = null)
+    public function get($code = null)
     {
-        if ($id) {
-            return Product::select($id);
+        if ($code) {
+            return Product::select($code);
         }
 
         return Product::selectAll();
     }
 
-    public function post()
+  
+    public function post($code = null)
     {
         $data = $_POST;
 
-        return Product::insert($data);
-    }
+        if ($code) {
+            return Product::update($code, $data);
+        }
 
-    public function update()
-    {
+        return Product::insert($data);
     }
 
     public function delete($code)
