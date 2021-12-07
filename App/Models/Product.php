@@ -46,30 +46,16 @@ class Product
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        $sql = 'INSERT INTO ' . self::$table . ' (
-                type,
-                code,
-                name,
-                picture,
-                price,
-                blocked,
-              ) VALUES (
-                :type,
-                :code,
-                :name,
-                :picture,
-                :price,
-                :blocked,
-              )';
+        $sql = 'INSERT INTO product (type, code, name, price) VALUES (:type, :code, :name, :price)';
 
         $stmt = $connPdo->prepare($sql);
         $stmt->bindValue(':type', $data['type']);
         $stmt->bindValue(':code', $data['code']);
         $stmt->bindValue(':name', $data['name']);
-        $stmt->bindValue(':picture', $data['picture']);
         $stmt->bindValue(':price', $data['price']);
-        $stmt->bindValue(':blocked', $data['blocked']);
-
+        $stmt->execute();
+        
+        var_dump($stmt->errorInfo());
         if ($stmt->rowCount() > 0) {
             return 'Produto inserido com sucesso!';
         } else {

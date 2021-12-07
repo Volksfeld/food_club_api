@@ -44,21 +44,24 @@ class Staff
 
     public static function insert($data)
     {
-        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+            $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        $sql = 'INSERT INTO ' . self::$table . ' (name, adress, phone_number, email, access_level) VALUES (:name, :adress, :phone_number, :email, :access_level)';
-
-        $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(':name', $data['name']);
-        $stmt->bindValue(':adress', $data['adress']);
-        $stmt->bindValue(':phone_number', $data['phone_number']);
-        $stmt->bindValue(':email', $data['email']);
-        $stmt->bindValue(':access_level', $data['access_level']);
-
-        if ($stmt->rowCount() > 0) {
-            return 'funcionário inserido com sucesso!';
-        } else {
-            throw new \Exception("Falha ao inserir funcionário");
-        }
+            $sql = 'INSERT INTO ' . self::$table . ' (name, adress, phone_number, email, access_level) VALUES (:name, :adress, :phone_number, :email, :access_level)';
+        
+            $stmt = $connPdo->prepare($sql);
+            $stmt->bindValue(':name', $data['name']);
+            $stmt->bindValue(':adress', $data['adress']);
+            $stmt->bindValue(':phone_number', $data['phone_number']);
+            $stmt->bindValue(':email', $data['email']);
+            $stmt->bindValue(':access_level', $data['access_level']);
+            
+            $stmt->execute();
+    
+            if ($stmt->rowCount() > 0) {
+                return 'Funcionário inserido com sucesso!';
+            } else {
+                throw new \Exception("Falha ao inserir funcionário");
+            }
+      
     }
 }

@@ -56,11 +56,10 @@ class Responsible
         $stmt->bindValue(':login', $data['login']);
         $stmt->bindValue(':password', $data['password']);
         $stmt->bindValue(':access_level', $data['access_level']);
-
-
+        $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return 'responsável inserido com sucesso!';
+            return 'Responsável inserido com sucesso!';
         } else {
           
             throw new \Exception("Falha ao inserir responsável");
