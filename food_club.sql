@@ -26,7 +26,6 @@ CREATE TABLE IF NOT EXISTS `responsible` (
   `email` varchar(200) NOT NULL,
   `login` varchar(200) NOT NULL,
   `password` varchar(300) NOT NULL,
-  -- `studentsEnrollment` int(9) NOT NULL,
   `access_level` int(11) NOT NULL,
   PRIMARY KEY (`cpf`),
   UNIQUE KEY `email` (`cpf`)
@@ -72,8 +71,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
 --
 -- Estrutura da tabela `product`
 --
---@TODO
-  -- `ingredients` 
+
 DROP TABLE IF EXISTS `product`;
 
 CREATE TABLE IF NOT EXISTS `product` (
@@ -81,6 +79,7 @@ CREATE TABLE IF NOT EXISTS `product` (
   `code` varchar(11) NOT NULL,
   `name` varchar(200) NOT NULL,
   `price` decimal(65) NOT NULL,
+  `ingredients` varchar(400) DEFAULT NULL,
   `provider` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`code`),
   UNIQUE KEY `code` (`name`)
@@ -203,9 +202,6 @@ VALUES
 --
 -- Extraindo dados da tabela `product`
 --
--- @TODO 
-    -- ingredients
-    -- provider
 
 INSERT INTO
   `product` (
