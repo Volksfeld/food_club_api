@@ -132,22 +132,22 @@ class Student
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
         // GET Product Price
-        $productSql = 'SELECT * FROM product WHERE code = :productCode';
+        $productSql = 'SELECT * FROM product WHERE code = ?';
 
         $selectProductStmt = $connPdo->prepare($productSql);
 
-        $selectProductStmt->bindValue(':code', $productCode);
+        $selectProductStmt->bindValue(1, $productCode);
         $selectProductStmt->execute();
 
         $selectedProduct = $selectProductStmt->fetch(\PDO::FETCH_ASSOC);
 
 
         // GET Student balance
-        $selectSql = 'SELECT * FROM student WHERE enrollment = :studentEnrollment';
+        $selectSql = 'SELECT * FROM student WHERE enrollment = ?';
 
         $selectStudentStmt = $connPdo->prepare($selectSql);
 
-        $selectStudentStmt->bindValue(':enrollment', $studentEnrollment);
+        $selectStudentStmt->bindValue(1, $studentEnrollment);
         $selectStudentStmt->execute();
 
         $selectedStudent = $selectStudentStmt->fetch(\PDO::FETCH_ASSOC);
@@ -172,7 +172,7 @@ class Student
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
-            return 'Produto comprado com sucesso!';
+            return 'Produto comprado com sucesso! Seu novo saldo é: R$'.$updatedBalance;
         } else {
             var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao comprar produto");
