@@ -20,6 +20,10 @@ class StaffController
     {
         $data = $_POST;
 
+        if (!$_POST) {
+            $data = file_get_contents('php://input');
+        }
+
         if ($id) {
             return Staff::update($id, $data);
         }

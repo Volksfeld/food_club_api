@@ -18,6 +18,10 @@ class StudentController
     public function post($enrollment = null)
     {
         $data = $_POST;
+        
+        if (!$_POST) {
+            $data = file_get_contents('php://input');
+        }
 
         if ($enrollment) {
             return Student::update($enrollment, $data);

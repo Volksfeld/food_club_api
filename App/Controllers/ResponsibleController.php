@@ -18,6 +18,10 @@ class ResponsibleController
     public function post($cpf = null)
     {
         $data = $_POST;
+        
+        if (!$_POST) {
+            $data = file_get_contents('php://input');
+        }
 
         if ($cpf) {
             return Responsible::update($cpf, $data);
