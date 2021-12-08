@@ -20,6 +20,10 @@ class ProductController
     public function post($code = null)
     {
         $data = $_POST;
+        
+        if (!$_POST) {
+            $data = file_get_contents('php://input');
+        }
 
         if ($code) {
             return Product::update($code, $data);
