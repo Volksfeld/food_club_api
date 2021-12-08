@@ -48,13 +48,26 @@ class Product
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        $sql = 'INSERT INTO product (type, code, name, price) VALUES (:type, :code, :name, :price)';
+        if (!$data['ingredients']) {
+            $sql = 'INSERT INTO product (type, code, name, price, ingredients) VALUES (:type, :code, :name, :price, :ingredients)';
 
-        $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(':type', $data['type']);
-        $stmt->bindValue(':code', $data['code']);
-        $stmt->bindValue(':name', $data['name']);
-        $stmt->bindValue(':price', $data['price']);
+            $stmt = $connPdo->prepare($sql);
+            $stmt->bindValue(':type', $data['type']);
+            $stmt->bindValue(':code', $data['code']);
+            $stmt->bindValue(':name', $data['name']);
+            $stmt->bindValue(':price', $data['price']);
+            $stmt->bindValue(':ingredients', $data['ingredients']);
+        } else {
+            $sql = 'INSERT INTO product (type, code, name, price, provider) VALUES (:type, :code, :name, :price, :provider)';
+
+            $stmt = $connPdo->prepare($sql);
+            $stmt->bindValue(':type', $data['type']);
+            $stmt->bindValue(':code', $data['code']);
+            $stmt->bindValue(':name', $data['name']);
+            $stmt->bindValue(':price', $data['price']);
+            $stmt->bindValue(':provider', $data['provider']);
+        }
+    
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
@@ -67,22 +80,38 @@ class Product
 
     public static function update($code, $data)
     {
-
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
         $type = $data["type"];
         $name = $data["name"];
         $price = $data["price"];
 
-        $sql = "UPDATE product SET type = ?, name = ?, price = ? WHERE code = ?";
-              
-        $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(1, $type);
-        $stmt->bindValue(2, $name);
-        $stmt->bindValue(3, $price);
-        $stmt->bindValue(4, $code);
+        if ($data['ingredients']) {
+            $sql = "UPDATE product SET type = ?, name = ?, price = ?, ingredients = ? WHERE code = ?";
 
-        $stmt->execute();
+            $stmt = $connPdo->prepare($sql);
+            $stmt->bindValue(1, $type);
+            $stmt->bindValue(2, $name);
+            $stmt->bindValue(3, $price);
+            $stmt->bindValue(4, $data['ingredients']);
+            $stmt->bindValue(5, $code);
+
+            $stmt->execute();
+        } else {
+            $provider = $data['provider'];
+
+            $sql = "UPDATE product SET type = ?, name = ?, price = ?, provider = ? WHERE code = ?";
+
+            $stmt = $connPdo->prepare($sql);
+            $stmt->bindValue(1, $type);
+            $stmt->bindValue(2, $name);
+            $stmt->bindValue(3, $price);
+            $stmt->bindValue(4, $provider);
+            $stmt->bindValue(5, $code);
+
+            $stmt->execute();
+        }
+
 
         if ($stmt->rowCount() > 0) {
             return 'Produto atualizado com sucesso!';
@@ -91,6 +120,31 @@ class Product
             throw new \Exception("Falha ao atualizar produto");
         }
     }
+
+    // public static function update($code, $data)
+    // {
+    //     $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+
+    //     $sql = "UPDATE product SET type = ?, name = ?, price = ?, ingredients = ?, provider = ? WHERE code = ?";
+
+    //     $stmt = $connPdo->prepare($sql);
+    //     $stmt->bindValue(1, $data["type"]);
+    //     $stmt->bindValue(2, $data["name"]);
+    //     $stmt->bindValue(3, $data["price"]);
+    //     $stmt->bindValue(4, $data['ingredients']);
+    //     $stmt->bindValue(5, $data['provider']);
+    //     $stmt->bindValue(6, $code);
+
+    //     $stmt->execute();
+
+    //     if ($stmt->rowCount() > 0) {
+    //         return 'Produto atualizado com sucesso!';
+    //     } else {
+    //         var_dump($stmt->errorInfo());
+    //         throw new \Exception("Falha ao atualizar produto");
+    //     }
+    // }
 
     public static function delete($code)
     {
