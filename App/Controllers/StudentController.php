@@ -31,4 +31,9 @@ class StudentController
 
         return Student::delete($enrollment);
     }
+
+    public function buyProduct($productCode, $studentEnrollment)
+    {
+        return Student::buyProduct($productCode, $studentEnrollment);
+    }
 }

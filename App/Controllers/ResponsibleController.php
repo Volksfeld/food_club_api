@@ -31,4 +31,9 @@ class ResponsibleController
 
         return Responsible::delete($cpf);
     }
+    public function deposit($studentEnrollment, $value)
+    {
+
+        return Responsible::deposit($studentEnrollment, $value);
+    }
 }

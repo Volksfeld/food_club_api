@@ -89,6 +89,21 @@ SimpleRouter::delete('/food_club_api/public_html/api/responsible/{cpf}', functio
   echo delete(new ResponsibleController(), $cpf);
 });
 
+SimpleRouter::post('/food_club_api/public_html/api/responsible/deposit/{studentEnrollment}/{value}', function ($studentEnrollment, $value) {
+  try {
+    $controller = new ResponsibleController();
+
+    $response = $controller->deposit($studentEnrollment, $value);
+
+    http_response_code(200);
+    echo json_encode(array('status' => 'success', 'data' => $response));
+  } catch (\Exception $e) {
+
+    http_response_code(404);
+    echo json_encode(array('status' => 'error', 'data' => 'null', 'error' => $e->getMessage()), JSON_UNESCAPED_UNICODE);
+  }
+});
+
 // ---------------------------------------------
 // Staff Routes
 // ---------------------------------------------
@@ -119,6 +134,21 @@ SimpleRouter::get('/food_club_api/public_html/api/student/{enrollment?}', functi
 
 SimpleRouter::delete('/food_club_api/public_html/api/student/{enrollment}', function ($enrollment) {
   echo delete(new StudentController(), $enrollment);
+});
+
+SimpleRouter::post('/food_club_api/public_html/api/student/buy/{productCode}/{studentEnrollment}', function ($productCode, $studentEnrollment) {
+  try {
+    $controller = new StudentController();
+
+    $response = $controller->buyProduct($productCode, $studentEnrollment);
+
+    http_response_code(200);
+    echo json_encode(array('status' => 'success', 'data' => $response));
+  } catch (\Exception $e) {
+
+    http_response_code(404);
+    echo json_encode(array('status' => 'error', 'data' => 'null', 'error' => $e->getMessage()), JSON_UNESCAPED_UNICODE);
+  }
 });
 
 SimpleRouter::start();

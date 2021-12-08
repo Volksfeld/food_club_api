@@ -6,7 +6,6 @@ class Student
 {
     private static $table = 'student';
 
-
     public static function select(int $enrollment)
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
@@ -41,8 +40,6 @@ class Student
             throw new \Exception("Nenhum estudante encontrado");
         }
     }
-
-
 
     public static function insert($data)
     {
@@ -126,6 +123,59 @@ class Student
         } else {
             var_dump($stmt->errorInfo());
             throw new \Exception("Falha ao deletar estudante");
+        }
+    }
+
+    public static function buyProduct($productCode, $studentEnrollment)
+    {
+
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        // GET Product Price
+        $productSql = 'SELECT * FROM product WHERE code = :productCode';
+
+        $selectProductStmt = $connPdo->prepare($productSql);
+
+        $selectProductStmt->bindValue(':code', $productCode);
+        $selectProductStmt->execute();
+
+        $selectedProduct = $selectProductStmt->fetch(\PDO::FETCH_ASSOC);
+
+
+        // GET Student balance
+        $selectSql = 'SELECT * FROM student WHERE enrollment = :studentEnrollment';
+
+        $selectStudentStmt = $connPdo->prepare($selectSql);
+
+        $selectStudentStmt->bindValue(':enrollment', $studentEnrollment);
+        $selectStudentStmt->execute();
+
+        $selectedStudent = $selectStudentStmt->fetch(\PDO::FETCH_ASSOC);
+
+
+        $currentBalance = $selectedStudent['balance'];
+        $productPrice = $selectedProduct['price'];
+
+        if ($currentBalance < $productPrice) {
+            throw new \Exception("Saldo insuficiente.");
+            exit;
+        }
+
+        $updatedBalance = $currentBalance - $productPrice;
+
+        $sql = "UPDATE student SET balance = ? WHERE enrollment = ?";
+        
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(1, $updatedBalance);
+        $stmt->bindValue(2, $studentEnrollment);
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return 'Produto comprado com sucesso!';
+        } else {
+            var_dump($stmt->errorInfo());
+            throw new \Exception("Falha ao comprar produto");
         }
     }
 

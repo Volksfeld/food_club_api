@@ -42,8 +42,6 @@ class Responsible
         }
     }
 
-
-
     public static function insert($data)
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
@@ -80,7 +78,7 @@ class Responsible
         $password = $data["password"];
 
         $sql = "UPDATE responsible SET name = ?, phone_number = ?, email = ?, login = ?, password = ? WHERE cpf = ?";
-              
+
         $stmt = $connPdo->prepare($sql);
         $stmt->bindValue(1, $name);
         $stmt->bindValue(2, $phone_number);
@@ -117,4 +115,36 @@ class Responsible
         }
     }
 
+    public static function deposit($enrollment, $value)
+    {
+
+        $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
+
+        $selectSql = 'SELECT * FROM student WHERE enrollment = :enrollment';
+
+        $selectStmt = $connPdo->prepare($selectSql);
+
+        $selectStmt->bindValue(':enrollment', $enrollment);
+        $selectStmt->execute();
+
+        $selectedStudent = $selectStmt->fetch(\PDO::FETCH_ASSOC);
+        $currentBalance = $selectedStudent['balance'];
+
+        $updatedBalance =  $currentBalance + $value;
+
+        $sql = "UPDATE student SET balance = ? WHERE enrollment = ?";
+
+        $stmt = $connPdo->prepare($sql);
+        $stmt->bindValue(1, $updatedBalance);
+        $stmt->bindValue(2, $enrollment);
+
+        $stmt->execute();
+
+        if ($stmt->rowCount() > 0) {
+            return 'Deposito efetuado com sucesso!';
+        } else {
+            var_dump($stmt->errorInfo());
+            throw new \Exception("Falha ao depositar");
+        }
+    }
 }
