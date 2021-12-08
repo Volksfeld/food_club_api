@@ -42,8 +42,6 @@ class Product
         }
     }
 
-
-
     public static function insert($data)
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
@@ -120,31 +118,6 @@ class Product
             throw new \Exception("Falha ao atualizar produto");
         }
     }
-
-    // public static function update($code, $data)
-    // {
-    //     $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
-
-
-    //     $sql = "UPDATE product SET type = ?, name = ?, price = ?, ingredients = ?, provider = ? WHERE code = ?";
-
-    //     $stmt = $connPdo->prepare($sql);
-    //     $stmt->bindValue(1, $data["type"]);
-    //     $stmt->bindValue(2, $data["name"]);
-    //     $stmt->bindValue(3, $data["price"]);
-    //     $stmt->bindValue(4, $data['ingredients']);
-    //     $stmt->bindValue(5, $data['provider']);
-    //     $stmt->bindValue(6, $code);
-
-    //     $stmt->execute();
-
-    //     if ($stmt->rowCount() > 0) {
-    //         return 'Produto atualizado com sucesso!';
-    //     } else {
-    //         var_dump($stmt->errorInfo());
-    //         throw new \Exception("Falha ao atualizar produto");
-    //     }
-    // }
 
     public static function delete($code)
     {
