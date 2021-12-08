@@ -11,6 +11,10 @@ class ComposerStaticInit36b4a02ccafedc3b070e25aa4fbb1af6
     );
 
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'Pecee\\' => 6,
+        ),
         'A' => 
         array (
             'App\\' => 4,
@@ -18,6 +22,10 @@ class ComposerStaticInit36b4a02ccafedc3b070e25aa4fbb1af6
     );
 
     public static $prefixDirsPsr4 = array (
+        'Pecee\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/pecee/simple-router/src/Pecee',
+        ),
         'App\\' => 
         array (
             0 => __DIR__ . '/../..' . '/App',
