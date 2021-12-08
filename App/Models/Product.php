@@ -48,13 +48,13 @@ class Product
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        $sql = 'INSERT INTO product (type, code, name, price) VALUES (type = ?, code = ?, name = ?, price = ?)';
+        $sql = 'INSERT INTO product (type, code, name, price) VALUES (:type, :code, :name, :price)';
 
         $stmt = $connPdo->prepare($sql);
-        $stmt->bindValue(1, $data['type']);
-        $stmt->bindValue(2, $data['code']);
-        $stmt->bindValue(3, $data['name']);
-        $stmt->bindValue(4, $data['price']);
+        $stmt->bindValue(':type', $data['type']);
+        $stmt->bindValue(':code', $data['code']);
+        $stmt->bindValue(':name', $data['name']);
+        $stmt->bindValue(':price', $data['price']);
         $stmt->execute();
 
         if ($stmt->rowCount() > 0) {
