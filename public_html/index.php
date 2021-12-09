@@ -4,6 +4,7 @@ header('Content-Type: application/json');
 
 require_once '../vendor/autoload.php';
 
+use App\Controllers\LoginController;
 use App\Controllers\ProductController;
 use App\Controllers\ResponsibleController;
 use App\Controllers\StaffController;
@@ -56,6 +57,18 @@ function post($controller, $param)
     return json_encode(array('status' => 'error', 'data' => 'null', 'error' => $e->getMessage()), JSON_UNESCAPED_UNICODE);
   }
 }
+
+SimpleRouter::post('/food_club_api/public_html/api/login', function () {
+  $data = $_POST;
+
+  if (!$_POST) {
+    $data = file_get_contents('php://input');
+  }
+
+  $loginController = new LoginController();
+
+  echo $loginController->login($data);
+});
 
 // ---------------------------------------------
 // Product Routes
