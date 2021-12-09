@@ -48,7 +48,7 @@ class Staff
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        $sql = 'INSERT INTO ' . self::$table . ' (name, adress, phone_number, email, access_level) VALUES (:name, :adress, :phone_number, :email, :access_level)';
+        $sql = 'INSERT INTO ' . self::$table . ' (name, adress, phone_number, email, access_level, password) VALUES (:name, :adress, :phone_number, :email, :access_level, :password)';
 
         $stmt = $connPdo->prepare($sql);
         $stmt->bindValue(':name', $data['name']);
@@ -56,6 +56,7 @@ class Staff
         $stmt->bindValue(':phone_number', $data['phone_number']);
         $stmt->bindValue(':email', $data['email']);
         $stmt->bindValue(':access_level', $data['access_level']);
+        $stmt->bindValue(':password', $data['password']);
 
         $stmt->execute();
 
@@ -76,15 +77,17 @@ class Staff
         $adress = $data["adress"];
         $phone_number = $data["phone_number"];
         $email = $data["email"];
+        $password = $data["password"];
 
-        $sql = "UPDATE staff SET name = ?, adress = ?, phone_number = ?, email = ? WHERE id = ?";
+        $sql = "UPDATE staff SET name = ?, adress = ?, phone_number = ?, email = ?, password = ? WHERE id = ?";
               
         $stmt = $connPdo->prepare($sql);
         $stmt->bindValue(1, $name);
         $stmt->bindValue(2, $adress);
         $stmt->bindValue(3, $phone_number);
         $stmt->bindValue(4, $email);
-        $stmt->bindValue(5, $id);
+        $stmt->bindValue(5, $password);
+        $stmt->bindValue(6, $id);
 
         $stmt->execute();
 

@@ -64,6 +64,7 @@ CREATE TABLE IF NOT EXISTS `staff` (
   `phone_number` varchar(200) NOT NULL,
   `email` varchar(200) NOT NULL,
   `access_level` int(11) NOT NULL,
+  `password` varchar(300) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id` (`email`)
 ) ENGINE = MyISAM AUTO_INCREMENT = 3 DEFAULT CHARSET = utf8;
