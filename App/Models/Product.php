@@ -46,7 +46,7 @@ class Product
     {
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
-        if (!$data['ingredients']) {
+        if (!empty($data['ingredients'])) {
             $sql = 'INSERT INTO product (type, code, name, price, ingredients) VALUES (:type, :code, :name, :price, :ingredients)';
 
             $stmt = $connPdo->prepare($sql);
@@ -84,7 +84,7 @@ class Product
         $name = $data["name"];
         $price = $data["price"];
 
-        if ($data['ingredients']) {
+        if (!empty($data['ingredients'])) {
             $sql = "UPDATE product SET type = ?, name = ?, price = ?, ingredients = ? WHERE code = ?";
 
             $stmt = $connPdo->prepare($sql);
