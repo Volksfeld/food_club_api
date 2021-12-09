@@ -117,6 +117,9 @@ class Responsible
 
     public static function deposit($enrollment, $value)
     {
+        if ($value <= 1) {
+            throw new \Exception("O valor deve ser maior que R$ 1");
+        }
 
         $connPdo = new \PDO(DBDRIVE . ': host=' . DBHOST . '; dbname=' . DBNAME, DBUSER, DBPASS);
 
