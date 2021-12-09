@@ -1,6 +1,9 @@
 <?php
 
 header('Content-Type: application/json');
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST, GET, DELETE, PUT, PATCH, OPTIONS');
+header('Access-Control-Allow-Headers: *');
 
 require_once '../vendor/autoload.php';
 
@@ -74,7 +77,7 @@ SimpleRouter::post('/food_club_api/public_html/api/login', function () {
 // Product Routes
 // ---------------------------------------------
 
-SimpleRouter::post('/food_club_api/public_html/api/product{code?}', function ($code = null) {
+SimpleRouter::post('/food_club_api/public_html/api/product/{code?}', function ($code = null) {
   echo post(new ProductController(), $code);
 });
 
