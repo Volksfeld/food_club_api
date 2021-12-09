@@ -42,19 +42,6 @@ class LoginController
             return $this->handleLoginSuccess($selectedStaff);
         }
 
-
-        $staffSql = 'SELECT * FROM staff WHERE email = ?';
-        $selectStaffStmt = $connPdo->prepare($staffSql);
-        $selectStaffStmt->bindValue(1, $email);
-
-        $selectStaffStmt->execute();
-
-        $selectedStaff = $selectStaffStmt->fetch(\PDO::FETCH_ASSOC);
-
-        if ($selectedStaff && $password == $selectedStaff['password']) {
-            return  $this->handleLoginSuccess($selectedStaff);
-        }
-
         $studentSql = 'SELECT * FROM student WHERE email = ?';
         $selectStudentStmt = $connPdo->prepare($studentSql);
         $selectStudentStmt->bindValue(1, $email);
